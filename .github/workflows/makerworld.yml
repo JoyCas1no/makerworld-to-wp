@@ -21,3 +21,5 @@ jobs:
           WP_USER: ${{ secrets.WP_USER }}
           WP_APP_PASSWORD: ${{ secrets.WP_APP_PASSWORD }}
         run: python makerworld_to_wp.py
+- name: Run test script
+  run: python test_makerworld_api.py
