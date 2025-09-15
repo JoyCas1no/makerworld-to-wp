@@ -6,10 +6,15 @@ headers = {
 }
 
 response = requests.get(url, headers=headers)
-data = response.json()
+print("Status code:", response.status_code)
 
-models = data["pageProps"]["designs"]
-
-print(f"Найдено моделей: {len(models)}")
-print("Пример первой модели:")
-print(models[0])
+try:
+    data = response.json()
+    models = data["pageProps"]["designs"]
+    print(f"Найдено моделей: {len(models)}")
+    print("Пример первой модели:")
+    from pprint import pprint
+    pprint(models[0])
+except Exception as e:
+    print("Ошибка при разборе JSON:", e)
+    print("Текст ответа:", response.text[:500])
