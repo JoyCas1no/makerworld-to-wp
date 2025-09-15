@@ -24,7 +24,7 @@ for card in soup.find_all("a", class_="model-card")[:30]:
         "image": img["src"] if img else "—",
         "author": author.text.strip() if author else "—"
     })
-
+print("Найдено моделей:", len(models))
 # --- Формируем HTML для WordPress ---
 html = '<div class="makerworld-models">'
 for m in models:
@@ -53,4 +53,5 @@ response = requests.post(
 if response.status_code == 200:
     print("Страница успешно обновлена!")
 else:
+
     print("Ошибка:", response.status_code, response.text)
