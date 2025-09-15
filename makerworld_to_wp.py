@@ -1,11 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
 from requests.auth import HTTPBasicAuth
+import os
 
 # --- Настройки ---
-WP_URL = "https://printtechlab.ru/wp-json/wp/v2/pages/56"  # URL страницы WordPress (замените 56 на ваш ID)
-WP_USER = "joycasino"  # Ваш логин WordPress
-WP_APP_PASSWORD = "0RJS xvnG WfFe H8E4 197s mMTd"  # Ваш пароль приложения
+WP_URL = "https://printtechlab.ru/wp-json/wp/v2/pages/56"  # URL страницы WordPress (замени на свой, если нужно)
+WP_USER = os.environ["WP_USER"]  # Логин WordPress из секретов
+WP_APP_PASSWORD = os.environ["WP_APP_PASSWORD"]  # Пароль приложения из секретов
 
 # --- Парсим MakerWorld ---
 url = "https://makerworld.com/ru/popular"
@@ -25,6 +26,7 @@ for card in soup.find_all("a", class_="model-card")[:30]:
         "author": author.text.strip() if author else "—"
     })
 print("Найдено моделей:", len(models))
+
 # --- Формируем HTML для WordPress ---
 html = '<div class="makerworld-models">'
 for m in models:
@@ -53,5 +55,7 @@ response = requests.post(
 if response.status_code == 200:
     print("Страница успешно обновлена!")
 else:
+    print("Ошибка:", response.status_code, response.text)
 
     print("Ошибка:", response.status_code, response.text)
+
